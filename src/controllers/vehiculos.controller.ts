@@ -5,7 +5,7 @@ import {
   FilterExcludingWhere,
   repository,
   Where,
-} from '@loopback/repository';
+} from "@loopback/repository";
 import {
   post,
   param,
@@ -16,135 +16,134 @@ import {
   del,
   requestBody,
   response,
-} from '@loopback/rest';
-import {Vehiculo} from '../models';
-import {VehiculoRepository} from '../repositories';
+} from "@loopback/rest";
+import { Vehiculo } from "../models";
+import { VehiculoRepository } from "../repositories";
 
 export class VehiculosController {
   constructor(
     @repository(VehiculoRepository)
-    public vehiculoRepository : VehiculoRepository,
+    public vehiculoRepository: VehiculoRepository
   ) {}
 
-  @post('/vehiculos')
+  @post("/vehiculos")
   @response(200, {
-    description: 'Vehiculo model instance',
-    content: {'application/json': {schema: getModelSchemaRef(Vehiculo)}},
+    description: "Vehiculo model instance",
+    content: { "application/json": { schema: getModelSchemaRef(Vehiculo) } },
   })
   async create(
     @requestBody({
       content: {
-        'application/json': {
+        "application/json": {
           schema: getModelSchemaRef(Vehiculo, {
-            title: 'NewVehiculo',
-            
+            title: "NewVehiculo",
           }),
         },
       },
     })
-    vehiculo: Vehiculo,
+    vehiculo: Vehiculo
   ): Promise<Vehiculo> {
+    console.log(vehiculo);
     return this.vehiculoRepository.create(vehiculo);
   }
 
-  @get('/vehiculos/count')
+  @get("/vehiculos/count")
   @response(200, {
-    description: 'Vehiculo model count',
-    content: {'application/json': {schema: CountSchema}},
+    description: "Vehiculo model count",
+    content: { "application/json": { schema: CountSchema } },
   })
-  async count(
-    @param.where(Vehiculo) where?: Where<Vehiculo>,
-  ): Promise<Count> {
+  async count(@param.where(Vehiculo) where?: Where<Vehiculo>): Promise<Count> {
     return this.vehiculoRepository.count(where);
   }
 
-  @get('/vehiculos')
+  @get("/vehiculos")
   @response(200, {
-    description: 'Array of Vehiculo model instances',
+    description: "Array of Vehiculo model instances",
     content: {
-      'application/json': {
+      "application/json": {
         schema: {
-          type: 'array',
-          items: getModelSchemaRef(Vehiculo, {includeRelations: true}),
+          type: "array",
+          items: getModelSchemaRef(Vehiculo, { includeRelations: true }),
         },
       },
     },
   })
   async find(
-    @param.filter(Vehiculo) filter?: Filter<Vehiculo>,
+    @param.filter(Vehiculo) filter?: Filter<Vehiculo>
   ): Promise<Vehiculo[]> {
     return this.vehiculoRepository.find(filter);
   }
 
-  @patch('/vehiculos')
+  @patch("/vehiculos")
   @response(200, {
-    description: 'Vehiculo PATCH success count',
-    content: {'application/json': {schema: CountSchema}},
+    description: "Vehiculo PATCH success count",
+    content: { "application/json": { schema: CountSchema } },
   })
   async updateAll(
     @requestBody({
       content: {
-        'application/json': {
-          schema: getModelSchemaRef(Vehiculo, {partial: true}),
+        "application/json": {
+          schema: getModelSchemaRef(Vehiculo, { partial: true }),
         },
       },
     })
     vehiculo: Vehiculo,
-    @param.where(Vehiculo) where?: Where<Vehiculo>,
+    @param.where(Vehiculo) where?: Where<Vehiculo>
   ): Promise<Count> {
     return this.vehiculoRepository.updateAll(vehiculo, where);
   }
 
-  @get('/vehiculos/{id}')
+  @get("/vehiculos/{id}")
   @response(200, {
-    description: 'Vehiculo model instance',
+    description: "Vehiculo model instance",
     content: {
-      'application/json': {
-        schema: getModelSchemaRef(Vehiculo, {includeRelations: true}),
+      "application/json": {
+        schema: getModelSchemaRef(Vehiculo, { includeRelations: true }),
       },
     },
   })
   async findById(
-    @param.path.string('id') id: string,
-    @param.filter(Vehiculo, {exclude: 'where'}) filter?: FilterExcludingWhere<Vehiculo>
+    @param.path.string("id") id: string,
+    @param.filter(Vehiculo, { exclude: "where" })
+    filter?: FilterExcludingWhere<Vehiculo>
   ): Promise<Vehiculo> {
     return this.vehiculoRepository.findById(id, filter);
   }
 
-  @patch('/vehiculos/{id}')
+  @patch("/vehiculos/{id}")
   @response(204, {
-    description: 'Vehiculo PATCH success',
+    description: "Vehiculo PATCH success",
   })
   async updateById(
-    @param.path.string('id') id: string,
+    @param.path.string("id") id: string,
     @requestBody({
       content: {
-        'application/json': {
-          schema: getModelSchemaRef(Vehiculo, {partial: true}),
+        "application/json": {
+          schema: getModelSchemaRef(Vehiculo, { partial: true }),
         },
       },
     })
-    vehiculo: Vehiculo,
+    vehiculo: Vehiculo
   ): Promise<void> {
     await this.vehiculoRepository.updateById(id, vehiculo);
   }
 
-  @put('/vehiculos/{id}')
+  @put("/vehiculos/{id}")
   @response(204, {
-    description: 'Vehiculo PUT success',
+    description: "Vehiculo PUT success",
   })
   async replaceById(
-    @param.path.string('id') id: string,
-    @requestBody() vehiculo: Vehiculo,
+    @param.path.string("id") id: string,
+    @requestBody() vehiculo: Vehiculo
   ): Promise<void> {
     await this.vehiculoRepository.replaceById(id, vehiculo);
   }
 
-  @del('/vehiculos/{id}')
+  @del("/vehiculos/{id}")
   @response(204, {
-    description: 'Vehiculo DELETE success',
+    description: "Vehiculo DELETE success",
   })
-  async deleteById(@param.path.string('id') id: string): Promise<void> {
+  async deleteById(@param.path.string("id") id: string): Promise<void> {
     await this.vehiculoRepository.deleteById(id);
   }
 }
